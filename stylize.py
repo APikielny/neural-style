@@ -70,7 +70,7 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
     # compute content features in feedforward mode
     g = tf.Graph()
     with g.as_default(), g.device('/cpu:0'), tf.compat.v1.Session() as sess:
-        image = tf.placeholder('float', shape=shape)
+        image = tf.compat.v1.placeholder('float', shape=shape)
         net = vgg.net_preloaded(vgg_weights, image, pooling)
         content_pre = np.array([vgg.preprocess(content, vgg_mean_pixel)])
         for layer in CONTENT_LAYERS:
@@ -80,7 +80,7 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
     for i in range(len(styles)):
         g = tf.Graph()
         with g.as_default(), g.device('/cpu:0'), tf.compat.v1.Session() as sess:
-            image = tf.placeholder('float', shape=style_shapes[i])
+            image = tf.compat.v1.placeholder('float', shape=style_shapes[i])
             net = vgg.net_preloaded(vgg_weights, image, pooling)
             style_pre = np.array([vgg.preprocess(styles[i], vgg_mean_pixel)])
             for layer in STYLE_LAYERS:
