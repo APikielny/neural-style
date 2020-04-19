@@ -95,12 +95,12 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
     with tf.Graph().as_default():
         if initial is None:
             noise = np.random.normal(size=shape, scale=np.std(content) * 0.1)
-            initial = tf.random_normal(shape) * 0.256
+            initial = tf.compat.v1.random_normal(shape) * 0.256
         else:
             initial = np.array([vgg.preprocess(initial, vgg_mean_pixel)])
             initial = initial.astype('float32')
             noise = np.random.normal(size=shape, scale=np.std(content) * 0.1)
-            initial = (initial) * initial_content_noise_coeff + (tf.random_normal(shape) * 0.256) * (1.0 - initial_content_noise_coeff)
+            initial = (initial) * initial_content_noise_coeff + (tf.compat.v1.random_normal(shape) * 0.256) * (1.0 - initial_content_noise_coeff)
         image = tf.Variable(initial)
         net = vgg.net_preloaded(vgg_weights, image, pooling)
 
